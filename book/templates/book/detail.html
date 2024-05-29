@@ -1,13 +1,17 @@
-{% extends 'core/base.html' %}
+{% extends "core/base.html" %}
+{% load static %}
 
 {% block title %}{{ book.title }}{% endblock %}
 
 {% block content %}
-    <h1 class="mb-6 text-2xl">{{ book.title }}</h1>
-
-    <h3><strong>Status:</strong> {{ book.get_status_display }}</h3>
-    <h3><strong>Author:</strong> <a href="{% url 'author:detail' book.author.id %}">{{ book.author.name }}</a></h3>
-
-    <a href="{% url 'book:edit' book.id %}" class="mt-6 py-4 px-6 inline-block bg-sky-700 text-white">Edit</a>
-    <a href="{% url 'book:delete' book.id %}" class="mt-6 py-4 px-6 inline-block bg-amber-700 text-white">Delete</a>
+<div class="container">
+    <h1>{{ book.title }}</h1>
+    {% if book.cover %}
+    <img src="{{ book.cover.url }}" class="img-fluid" alt="{{ book.title }}">
+    {% else %}
+    <img src="{% static 'core/images/no_image_book.jpg' %}" class="img-fluid" alt="No cover available">
+    {% endif %}
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>Description:</strong> {{ book.description }}</p>
+</div>
 {% endblock %}

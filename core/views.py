@@ -4,6 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
+from book.models import Book
 
 
 def custom_logout(request):
@@ -11,8 +12,14 @@ def custom_logout(request):
     return redirect('login')
 
 def index(request):
-    return render(request, 'core/index.html')
-
+    trending_books = Book.objects.filter(category='Trending')
+    classic_books = Book.objects.filter(category='Classic')
+    books_we_love = Book.objects.filter(category='Love')
+    return render(request, 'core/index.html', {
+        'trending_books': trending_books,
+        'classic_books': classic_books,
+        'books_we_love': books_we_love,
+    })
 def custom_login(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(data=request.POST)

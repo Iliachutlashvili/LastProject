@@ -1,15 +1,12 @@
-{% extends 'core/base.html' %}
+{% extends "core/base.html" %}
 
-{% block title %}Add book{% endblock %}
+{% block title %}Add Book{% endblock %}
 
 {% block content %}
-    <h1 class="text-2xl">Add book</h1>
-
-    <form method="post" action=".">
-        {% csrf_token %}
-
-        {{ form.as_p }}
-
-        <button class="py-4 px-6 bg-sky-700 text-white">Submit</button>
-    </form>
+<h2>Add New Book</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Book</button>
+</form>
 {% endblock %}

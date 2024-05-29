@@ -6,10 +6,7 @@ from .models import Book
 
 def index(request):
     books = Book.objects.all()
-
-    return render(request, 'book/index.html', {
-        'books': books
-    })
+    return render(request, 'book/index.html', {'books': books})
 
 
 def detail(request, pk):

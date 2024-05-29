@@ -1,0 +1,19 @@
+{% extends "core/base.html" %}
+
+{% block title %}Books{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-6 px-8">
+    <h2 class="text-2xl font-bold mb-6">Books</h2>
+    <!-- Add your book list or content here -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Example book item -->
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold">Book Title</h3>
+            <p class="text-gray-700">Author Name</p>
+            <p class="text-gray-600">Description of the book goes here.</p>
+        </div>
+        <!-- Repeat similar blocks for more books -->
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{% block title %}Welcome to Ilias Books{% endblock %}</title>
+</head>
+<body>
+    {% load static %}
+    <nav class="max-w-4xl mx-auto py-6 px-8 flex justify-between items-center bg-slate-800">
+        <a href="/" class="text-2xl text-white">Gaiazre</a>
+        <div class="space-x-6 flex items-center ml-auto">
+            <a href="{% url 'books' %}" class="text-white">Books</a>
+            {% if user.is_staff %}
+                <a href="{% url 'author:index' %}" class="text-white">Authors</a>
+                <a href="{% url 'book:add' %}" class="py-4 px-6 bg-sky-700 text-white">Add book</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <div class="relative dropdown" id="dropdown">
+                    <button class="flex items-center space-x-2 focus:outline-none" id="dropdownButton">
+                        <img src="{% if user.userprofile.avatar %}{{ user.userprofile.avatar.url }}{% else %}{% static 'core/images/no-avatar.png' %}{% endif %}" alt="{{ user.username }}" class="w-10 h-10 rounded-full">
+                        <span class="text-white">{{ user.username }}</span>
+                    </button>
+                    <div class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl dropdown-menu" id="dropdownMenu">
+                        <a href="{% url 'profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Profile</a>
+                        {% if user.is_staff %}
+                            <a href="{% url 'admin:index' %}" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Admin</a>
+                        {% endif %}
+                        <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Log Out</a>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const dropdownButton = document.getElementById('dropdownButton');
+                        const dropdownMenu = document.getElementById('dropdownMenu');
+                        const dropdown = document.getElementById('dropdown');
+
+                        dropdownButton.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                            dropdown.classList.toggle('open');
+                        });
+
+                        document.addEventListener('click', function(event) {
+                            if (!dropdownButton.contains(event.target) && dropdown.classList.contains('open')) {
+                                dropdown.classList.remove('open');
+                            }
+                        });
+                    });
+                </script>
+            {% else %}
+                <a href="{% url 'register' %}" class="py-4 px-6 bg-green-700 text-white">Register</a>
+                <a href="{% url 'login' %}" class="py-4 px-6 bg-blue-700 text-white">Log In</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="max-w-4xl mx-auto py-6 px-8">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

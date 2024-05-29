@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+
+{% load static %}
+{% load form_filters %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center">
+    <div class="bg-white bg-opacity-90 p-10 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <strong class="font-bold">Error:</strong>
+                    <span class="block sm:inline">{{ form.errors }}</span>
+                </div>
+            {% endif %}
+            <div class="space-y-4">
+                <div>
+                    <label for="id_username" class="block text-gray-700">Username:</label>
+                    {{ form.username|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+                </div>
+                <div>
+                    <label for="id_password" class="block text-gray-700">Password:</label>
+                    {{ form.password|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+                </div>
+            </div>
+            <button type="submit" class="mt-6 w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300">Log In</button>
+        </form>
+        <div class="register mt-6">
+            <p class="text-gray-700">Don't have an account? <a href="{% url 'register' %}" class="text-blue-600">Register</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

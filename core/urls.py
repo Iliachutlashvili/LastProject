@@ -1,3 +1,5 @@
+# core/urls.py
+
 from django.urls import path
 from . import views
 
@@ -7,5 +9,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.custom_login, name='login'),
     path('logout/', views.custom_logout, name='logout'),
-    path('books/', views.books, name='books'),  # Add this if you have a books view
+    # Remove or comment out this line if you don't have a books view
+    # path('books/', views.books, name='books'),
 ]

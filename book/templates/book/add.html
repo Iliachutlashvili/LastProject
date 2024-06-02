@@ -1,12 +1,47 @@
 {% extends "core/base.html" %}
+{% load static %}
+{% load form_filters %}
 
 {% block title %}Add Book{% endblock %}
 
 {% block content %}
-<h2>Add New Book</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Book</button>
-</form>
+<div class="max-w-4xl mx-auto py-6 px-8">
+    <h2 class="text-2xl font-bold mb-6">Add Book</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="space-y-4">
+            <div>
+                <label for="id_title" class="block text-gray-700">Title:</label>
+                {{ form.title|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+            </div>
+            <div>
+                <label for="id_author" class="block text-gray-700">Author:</label>
+                {{ form.author|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+            </div>
+            <div>
+                <label for="id_description" class="block text-gray-700">Description:</label>
+                {{ form.description|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+            </div>
+            <div>
+                <label for="id_cover" class="block text-gray-700">Cover:</label>
+                {{ form.cover|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+            </div>
+            <div>
+                <label for="id_category" class="block text-gray-700">Category:</label>
+                {{ form.category|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+            </div>
+        </div>
+        <button type="submit" class="mt-6 w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300">Add Book</button>
+    </form>
+    {% if form.errors %}
+        <div class="mt-4 p-4 bg-red-200 text-red-700">
+            <h3 class="font-bold mb-2">Form Errors:</h3>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

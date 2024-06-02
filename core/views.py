@@ -1,25 +1,22 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm, CustomAuthenticationForm, UserProfileForm
+from .forms import RegistrationForm, CustomAuthenticationForm, UserProfileForm, UserForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
-from book.models import Book
-
+from book.models import Book, Category
 
 def custom_logout(request):
     logout(request)
     return redirect('login')
 
 def index(request):
-    trending_books = Book.objects.filter(category='Trending')
-    classic_books = Book.objects.filter(category='Classic')
-    books_we_love = Book.objects.filter(category='Love')
-    return render(request, 'core/index.html', {
-        'trending_books': trending_books,
-        'classic_books': classic_books,
-        'books_we_love': books_we_love,
-    })
+    categories = Category.objects.all()
+    context = {
+        'categories': categories
+    }
+    return render(request, 'core/index.html', context)
+
 def custom_login(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(data=request.POST)
@@ -40,13 +37,16 @@ def custom_login(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        if form.is_valid():
-            form.save()
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
             return redirect('profile')
     else:
-        form = UserProfileForm(instance=request.user.userprofile)
-    return render(request, 'core/profile.html', {'form': form})
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.userprofile)
+    return render(request, 'core/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 def register(request):
     if request.method == 'POST':
@@ -57,3 +57,7 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'core/register.html', {'form': form})
+
+def books(request):
+    all_books = Book.objects.all()
+    return render(request, 'core/books.html', {'books': all_books})

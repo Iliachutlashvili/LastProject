@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
-from .models import Book
+from .models import Book, Category
 from .forms import BookForm
 
 def index(request):
@@ -17,8 +17,12 @@ def add(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
+            print("Form is valid")
             form.save()
             return redirect('book:index')
+        else:
+            print("Form is not valid")
+            print(form.errors)  # This will print form errors to the console
     else:
         form = BookForm()
     return render(request, 'book/add.html', {'form': form})
@@ -44,7 +48,3 @@ def delete(request, pk):
         book.delete()
         return redirect('book:index')
     return render(request, 'book/delete.html', {'book': book})
-
-def book_detail(request, pk):
-    book = Book.objects.get(pk=pk)
-    return render(request, 'book/book_detail.html', {'book': book})

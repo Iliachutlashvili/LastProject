@@ -1,0 +1,8 @@
+from django import template
+from django.contrib.auth.models import User
+
+register = template.Library()
+
+@register.filter(name='has_perm')
+def has_perm(user, perm):
+    return user.has_perm(perm)

@@ -12,15 +12,15 @@
         <div class="space-y-4">
             <div>
                 <label for="id_first_name" class="block text-gray-700">First Name:</label>
-                {{ form.first_name|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+                {{ user_form.first_name|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
             </div>
             <div>
                 <label for="id_last_name" class="block text-gray-700">Last Name:</label>
-                {{ form.last_name|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+                {{ user_form.last_name|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
             </div>
             <div>
                 <label for="id_avatar" class="block text-gray-700">Avatar:</label>
-                {{ form.avatar|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
+                {{ profile_form.avatar|add_class:"block w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" }}
             </div>
         </div>
         <button type="submit" class="mt-6 w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300">Update Profile</button>

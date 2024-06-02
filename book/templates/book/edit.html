@@ -1,21 +1,37 @@
-<h1>Books</h1>
-<div class="row">
-    {% for book in books %}
-    <div class="col-md-3">
-        <div class="card">
-            <img src="{{ book.cover.url }}" class="card-img-top" alt="{{ book.title }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ book.title }}</h5>
-                <p class="card-text">{{ book.author }}</p>
-                <a href="{% url 'book:detail' book.pk %}" class="btn btn-primary">View Details</a>
-                {% if user.has_perm('book.change_book') %}
-                    <a href="{% url 'book:edit' book.pk %}" class="btn btn-warning">Edit</a>
-                {% endif %}
-                {% if user.has_perm('book.delete_book') %}
-                    <a href="{% url 'book:delete' book.pk %}" class="btn btn-danger">Delete</a>
-                {% endif %}
+{% extends "core/base.html" %}
+{% load static %}
+{% load form_filters %}
+
+{% block title %}Edit Book{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto py-6 px-8">
+    <h1 class="text-2xl font-bold mb-6">Edit Book</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="space-y-4">
+            <div>
+                <label for="id_title" class="block text-gray-700">Title:</label>
+                {{ form.title }}
+            </div>
+            <div>
+                <label for="id_author" class="block text-gray-700">Author:</label>
+                {{ form.author }}
+            </div>
+            <div>
+                <label for="id_category" class="block text-gray-700">Category:</label>
+                {{ form.category }}
+            </div>
+            <div>
+                <label for="id_description" class="block text-gray-700">Description:</label>
+                {{ form.description }}
+            </div>
+            <div>
+                <label for="id_cover" class="block text-gray-700">Cover:</label>
+                {{ form.cover }}
             </div>
         </div>
-    </div>
-    {% endfor %}
+        <button type="submit" class="mt-6 w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300">Save</button>
+    </form>
 </div>
+{% endblock %}

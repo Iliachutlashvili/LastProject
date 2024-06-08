@@ -5,11 +5,21 @@ from .forms import BookForm
 
 def index(request):
     books = Book.objects.all()
-    return render(request, 'book/index.html', {'books': books})
+    context = {
+        'books': books,
+        'user_is_authenticated': request.user.is_authenticated,
+        'user_is_admin': request.user.is_staff
+    }
+    return render(request, 'book/index.html', context)
 
 def detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
-    return render(request, 'book/detail.html', {'book': book})
+    context = {
+        'book': book,
+        'user_is_authenticated': request.user.is_authenticated,
+        'user_is_admin': request.user.is_staff
+    }
+    return render(request, 'book/detail.html', context)
 
 @login_required
 @permission_required('book.add_book', raise_exception=True)
@@ -17,12 +27,8 @@ def add(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            print("Form is valid")
             form.save()
             return redirect('book:index')
-        else:
-            print("Form is not valid")
-            print(form.errors)  # This will print form errors to the console
     else:
         form = BookForm()
     return render(request, 'book/add.html', {'form': form})

@@ -33,15 +33,5 @@
         </div>
         <button type="submit" class="mt-6 w-full py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300">Add Book</button>
     </form>
-    {% if form.errors %}
-        <div class="mt-4 p-4 bg-red-200 text-red-700">
-            <h3 class="font-bold mb-2">Form Errors:</h3>
-            <ul>
-                {% for field, errors in form.errors.items %}
-                    <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
 </div>
 {% endblock %}

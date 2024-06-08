@@ -13,8 +13,8 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     cover = models.ImageField(upload_to='book_covers/', blank=True, null=True)
     description = models.TextField(blank=True)
-    published_date = models.DateField(default=date.today)
-    category = models.CharField(max_length=100)
+    published_date = models.DateField(auto_now_add=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('title',)

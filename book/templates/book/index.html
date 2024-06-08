@@ -4,29 +4,33 @@
 {% block title %}Books{% endblock %}
 
 {% block content %}
-<h1>Books</h1>
-<div class="row">
-    {% for book in books %}
-    <div class="col-md-3">
-        <div class="card">
-            {% if book.cover %}
-            <img src="{{ book.cover.url }}" class="card-img-top" alt="{{ book.title }}">
-            {% else %}
-            <img src="{% static 'core/images/no_image_book.jpg' %}" class="card-img-top" alt="No cover available">
-            {% endif %}
-            <div class="card-body">
-                <h5 class="card-title">{{ book.title }}</h5>
-                <p class="card-text">{{ book.author }}</p>
-                <a href="{% url 'book:detail' book.pk %}" class="btn btn-primary">View Details</a>
-                {% if perms.book.change_book %}
-                <a href="{% url 'book:edit' book.pk %}" class="btn btn-warning">Edit</a>
+<div class="max-w-4xl mx-auto py-6 px-8">
+    <h2 class="text-2xl font-bold mb-6">Books</h2>
+    <div class="grid grid-cols-1 gap-4">
+        {% for book in books %}
+        <div class="bg-white p-4 rounded-lg shadow-md flex items-center">
+            <div class="mr-4">
+                {% if book.cover %}
+                <img src="{{ book.cover.url }}" alt="{{ book.title }}" class="w-40 h-40 object-cover rounded">
+                {% else %}
+                <img src="{% static 'path/to/default-image.jpg' %}" alt="No cover available" class="w-40 h-40 object-cover rounded">
                 {% endif %}
-                {% if perms.book.delete_book %}
-                <a href="{% url 'book:delete' book.pk %}" class="btn btn-danger">Delete</a>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold">{{ book.title }}</h3>
+                <p>Author: {{ book.author }}</p>
+                <p>Category: {{ book.category }}</p>
+                <p>Description: {{ book.description }}</p>
+                {% if user_is_authenticated %}
+                    <a href="{% url 'book:detail' book.pk %}" class="inline-block bg-blue-500 text-white py-1 px-2 rounded">View</a>
+                {% endif %}
+                {% if user_is_admin %}
+                    <a href="{% url 'book:edit' book.pk %}" class="inline-block bg-yellow-500 text-white py-1 px-2 rounded">Edit</a>
+                    <a href="{% url 'book:delete' book.pk %}" class="inline-block bg-red-500 text-white py-1 px-2 rounded">Delete</a>
                 {% endif %}
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

@@ -7,7 +7,7 @@
 <div class="max-w-4xl mx-auto py-6 px-8">
     <h2 class="text-2xl font-bold mb-6">Books</h2>
     <div class="grid grid-cols-1 gap-4">
-        {% for book in books %}
+        {% for book in page_obj %}
         <div class="bg-white p-4 rounded-lg shadow-md flex items-center">
             <div class="mr-4">
                 {% if book.cover %}
@@ -31,6 +31,21 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="mt-6">
+        <span class="page-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="py-1 px-2 border rounded">First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="py-1 px-2 border rounded">Previous</a>
+            {% endif %}
+
+            <span class="py-1 px-2">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="py-1 px-2 border rounded">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="py-1 px-2 border rounded">Last</a>
+            {% endif %}
+        </span>
     </div>
 </div>
 {% endblock %}

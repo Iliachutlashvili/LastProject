@@ -3,13 +3,16 @@
 {% block title %}Add author{% endblock %}
 
 {% block content %}
-    <h1 class="text-2xl">Add author</h1>
+    <h1 class="text-2xl mb-6">Add author</h1>
 
     <form method="post" action=".">
         {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="id_name" class="block text-gray-700 font-bold mb-2">Name:</label>
+            <input type="text" name="name" id="id_name" class="w-50 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        </div>
 
-        {{ form.as_p }}
-
-        <button class="py-4 px-6 bg-sky-700 text-white">Submit</button>
+        <button class="py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">Submit</button>
     </form>
 {% endblock %}

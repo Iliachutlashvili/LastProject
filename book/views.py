@@ -1,12 +1,18 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Book, Category
 from .forms import BookForm
 
 def index(request):
-    books = Book.objects.all()
+    book_list = Book.objects.all()
+    paginator = Paginator(book_list, 4)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'books': books,
+        'page_obj': page_obj,
         'user_is_authenticated': request.user.is_authenticated,
         'user_is_admin': request.user.is_staff
     }
@@ -19,7 +25,7 @@ def detail(request, pk):
         'user_is_authenticated': request.user.is_authenticated,
         'user_is_admin': request.user.is_staff
     }
-    return render(request, 'book/detail.html', context)
+    return render(request, 'book/book_detail.html', context)
 
 @login_required
 @permission_required('book.add_book', raise_exception=True)
@@ -41,10 +47,10 @@ def edit(request, pk):
         form = BookForm(request.POST, request.FILES, instance=book)
         if form.is_valid():
             form.save()
-            return redirect('book:detail', pk=book.pk)
+            return redirect('book:index')
     else:
         form = BookForm(instance=book)
-    return render(request, 'book/edit.html', {'form': form, 'book': book})
+    return render(request, 'book/edit.html', {'form': form})
 
 @login_required
 @permission_required('book.delete_book', raise_exception=True)

@@ -15,7 +15,7 @@ class Book(models.Model):
     description = models.TextField(blank=True)
     published_date = models.DateField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    content = models.TextField(default="")  # Provide a default value
+    content = models.TextField(default="") 
 
     class Meta:
         ordering = ('title',)
